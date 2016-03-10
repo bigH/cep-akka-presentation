@@ -1,0 +1,710 @@
+<!doctype html>
+<html lang="en">
+
+    <head>
+        <meta charset="utf-8">
+
+        <title>Complex Event Processing</title>
+
+        <meta name="description" content="... using Scala and Akka">
+        <meta name="author" content="Hiren Hiranandani">
+
+        <meta name="apple-mobile-web-app-capable" content="yes" />
+        <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+        <link rel="stylesheet" href="css/reveal.min.css">
+        <link rel="stylesheet" href="css/theme/night.css" id="theme">
+
+        <!-- For syntax highlighting -->
+        <link rel="stylesheet" href="lib/css/zenburn.css">
+
+        <style>
+            .left {
+                text-align:left;
+            }
+
+            .right {
+                text-align:left;
+            }
+
+            .logo_container {
+                background-color: #fff;
+                border: none;
+                border-radius: 30px;
+                padding: 50px;
+            }
+        </style>
+
+        <!-- If the query includes 'print-pdf', include the PDF print sheet -->
+        <script>
+            if( window.location.search.match( /print-pdf/gi ) ) {
+                var link = document.createElement( 'link' );
+                link.rel = 'stylesheet';
+                link.type = 'text/css';
+                link.href = 'css/print/pdf.css';
+                document.getElementsByTagName( 'head' )[0].appendChild( link );
+            }
+        </script>
+
+        <!--[if lt IE 9]>
+        <script src="lib/js/html5shiv.js"></script>
+        <![endif]-->
+    </head>
+
+    <body>
+
+        <div class="reveal">
+            <div class="slides">
+                <section>
+                    <section>
+                        <p style="font-size: 40px;"><a href="https://github.com/bigH/cep-akka-presentation">https://github.com/bigH/cep-akka-presentation</a></p>
+                    </section>
+                </section>
+
+                <section>
+                    <section>
+                        <img src="img/bigH.png"/>
+                    </section>
+                </section>
+
+                <section>
+                    <section>
+                        <pre><code data-trim contenteditable style="font-size: 18px; margin-top: 20px;">
+object Ugly
+this.code = Ugly
+//can you see this??
+                        </code></pre>
+                    </section>
+                </section>
+
+                <section>
+                    <section>
+                        <h2 style="margin-bottom: 50px; color: #cfc;">Hiren Hiranandani</h2>
+                        <h3 style="margin-bottom: 30px; color: #beb;">Capital One</h2>
+                        <h5>github: @bigH</h5>
+                        <h5>twitter: @hhiranan</h5>
+                    </section>
+                    <section>
+                        <img height="500" width="900" src="img/quake.gif">
+                    </section>
+                    <section>
+                        <img height="500" width="900" src="img/turbocpp.gif">
+                    </section>
+                    <section>
+                        <img height="500" width="300" src="img/java.gif">
+                    </section>
+                    <section>
+                        <img height="350" width="900" src="img/scala.gif">
+                    </section>
+                    <section>
+                        <img height="500" width="900" src="img/powerful.gif">
+                    </section>
+                </section>
+
+                <section>
+                    <div class="left">
+                        <h2 style="margin-bottom: 50px; color: #cfc;"><em>Complex Event Processing<br/>with Scala and Akka</em></h2>
+                        <h3 style="margin-bottom: 50px;">Problem, Solution and Possibilities</h3>
+                        <h5 class="right">by <em style="color:#8f8">Hiren Hiranandani</em></h5>
+                    </div>
+                </section>
+
+                <section>
+                    <h2 style="margin-bottom: 50px;">Poll</h2>
+                </section>
+
+                <section>
+                    <section>
+                        <h2>Complex Event Processing</h2>
+                    </section>
+                    <section>
+                        <h2 style="margin-bottom: 50px;">Solves..</h2>
+                        <ul>
+                            <li>Engagement</li>
+                            <li>Trading Systems</li>
+                            <li>Behavioral Analysis</li>
+                            <li>Intent Detection</li>
+                            <li>Fraud Detection</li>
+                            <li>Causality</li>
+                        </ul>
+                    </section>
+                </section>
+
+                <section>
+                    <section>
+                        <h2>Akka</h2>
+                    </section>
+                    <section>
+                        <h2 style="margin-bottom: 50px;">Distribution and Concurrency</h2>
+                        <ul>
+                            <li>Message Passing Concurrency</li>
+                            <li>Leans on Scala Features</li>
+                            <li>Clustering Support</li>
+                            <li>Persistence Support</li>
+                        </ul>
+                    </section>
+                </section>
+
+                <section>
+                    <section>
+                        <h1>The Problem</h1>
+                        <h2>eCommerce</h2>
+                    </section>
+                    <section>
+                        <h2 style="margin-bottom: 50px;">Badges</h2>
+                        <ul>
+                            <li>Engage Our Customers</li>
+                            <li>Buying Should be Fun</li>
+                            <li>Show we Understand Them</li>
+                        </ul>
+                    </section>
+                </section>
+
+                <section>
+                    <section>
+                        <h1>Phase 1</h1>
+                        <h2>Topology</h2>
+                    </section>
+                    <section>
+                        <h2 style="margin-bottom: 50px;">Messaging Platform</h2>
+                        <ul>
+                            <li>Kafka, Rabbit, etc.</li>
+                            <li>Topic about topics</li>
+                            <li>Messages are persisted for DR</li>
+                        </ul>
+                    </section>
+                    <section>
+                        <h2 style="margin-bottom: 50px;">Cluster</h2>
+                        <ul>
+                            <li>Subscriptions</li>
+                            <li>Topic about topics</li>
+                        </ul>
+                    </section>
+                </section>
+
+                <section>
+                    <section>
+                        <h1>Phase 2</h1>
+                        <h2>Software Infrastructure</h2>
+                    </section>
+                    <section>
+                        <h3 style="margin-bottom: 50px;">Events</h3>
+                        <pre><code data-trim contenteditable style="font-size: 18px; margin-top: 20px;">
+trait Event { def ts: Timestamp }
+
+case class Visit(user: User, page: Page)
+  extends Event { /* ... */ }
+case class AddToCart(user: User, product: Product)
+  extends Event { /* ... */ }
+case class RemoveFromCart(user: User, product: Product)
+  extends Event { /* ... */ }
+case class CartPurchased(user: User, items: Map[Product, Int])
+  extends Event { /* ... */ }
+case class Purchased(user: User, item: Product)
+  extends Event { /* ... */ }
+case class Returned(user: User, item: Product)
+  extends Event { /* ... */ }
+                        </code></pre>
+                    </section>
+                    <section>
+                        <h3 style="margin-bottom: 50px;">Events</h3>
+                        <pre><code data-trim contenteditable style="font-size: 18px; margin-top: 20px;">
+case class PriceChange(product: Product, change: Delta[Price])
+  extends Event { /* ... */ }
+case class ProductAdded(product: Product)
+  extends Event { /* ... */ }
+
+case class BadgeEarned(user: User, name: String)
+  extends Event { /* ... */ }
+                        </code></pre>
+                    </section>
+                    <section>
+                        <h3 style="margin-bottom: 50px;">Stream Listeners</h3>
+                        <pre><code data-trim contenteditable style="font-size: 18px; margin-top: 20px;">
+trait StreamMonitor extends Actor {
+  def topic: String
+  def bus: ActorRef
+  def award(user: User, badgeName: String)
+  def die(): Unit
+  /* imagine onSleep, state is written to DB */
+  /* imagine onWake, state is loaded from DB */
+  /* imagine more cool stuff here */
+}
+
+trait UserMonitor extends StreamMonitor
+
+trait ProductMonitor extends StreamMonitor
+                        </code></pre>
+                    </section>
+                    <section>
+                        <h3 style="margin-bottom: 50px;">Example 1</h3>
+                        <pre><code data-trim contenteditable style="font-size: 18px; margin-top: 20px;">
+class TotalProductsBought extends UserMonitor {
+  var counter = 0
+
+  def receive: Receive = {
+    case CartPurchased(_, items) =&gt;
+      counter = counter + items.values.reduce (_ + _)
+  }
+}
+                        </code></pre>
+                    </section>
+                    <section>
+                        <h3 style="margin-bottom: 50px;">Example 2</h3>
+                        <pre><code data-trim contenteditable style="font-size: 18px; margin-top: 20px;">
+class DisperseCart extends UserMonitor {
+  def receive: Receive = {
+    case CartPurchased(user, items) =&gt;
+      items foreach {
+        case (product, count) =&gt;
+          1 to count foreach {
+            bus ! Purchased(user, item)
+          }
+      }
+  }
+}
+                        </code></pre>
+                    </section>
+                    <section>
+                        <h3 style="margin-bottom: 50px;">Theory</h3>
+                        <pre><code data-trim contenteditable style="font-size: 18px; margin-top: 20px;">
+val tuple = (NotAwarded, EventWindow)
+eventStream.fold(tuple)((isAwarded, event) =&gt; {
+  // logic
+}) takeUntil {
+  case (isAwarded, _) =&gt; isAwarded
+}
+                        </code></pre>
+                    </section>
+                </section>
+
+                <section>
+                    <section>
+                        <h1>Phase 3</h1>
+                        <h2>Badges</h2>
+                    </section>
+                </section>
+
+                <section>
+                    <section>
+                        <h2>Badge 1</h2>
+                        <h3>Window Shopper</h3>
+                    </section>
+                    <section>
+                        <p>So, what is a window shopper?</p>
+                    </section>
+                    <section>
+                        <h3 style="margin-bottom: 50px;">Data Setup</h3>
+                        <pre><code data-trim contenteditable style="font-size: 18px; margin-top: 20px;">
+class WindowShopperBadge extends UserMonitor {
+  val window = 30.days
+  val ratio = 0.05d
+  val visitGoal = 1000
+
+  var visits: Seq[Visit] = Nil
+  var purchases: Seq[Purchased] = Nil
+
+  // continues on next slide
+}
+                        </code></pre>
+                    </section>
+                    <section>
+                        <h3 style="margin-bottom: 50px;">Useful Functions</h3>
+                        <pre><code data-trim contenteditable style="font-size: 18px; margin-top: 20px;">
+class WindowShopperBadge extends UserMonitor {
+  // continues from previous slide
+
+  def isRecent(event: Event) =
+    event.ts &gt; window.ago
+
+  def giveBadgeIfApplicable(): Unit = {
+    if (visits.size * ratio &lt; purchases.size)
+      award(user, "Window Shopper")
+  }
+
+  // continues on next slide
+}
+                        </code></pre>
+                    </section>
+                    <section>
+                        <h3 style="margin-bottom: 50px;">React to Events</h3>
+                        <pre><code data-trim contenteditable style="font-size: 18px; margin-top: 20px;">
+class WindowShopperBadge extends UserMonitor {
+  // continues from previous slide
+
+  def receive: Receive = {
+    case visit: Visit =&gt;
+      visits = visit :: (visits filter isRecent)
+      giveBadgeIfApplicable()
+    case purchase: purchase =&gt;
+      purchases = purchase :: (purchases filter isRecent)
+      giveBadgeIfApplicable()
+  }
+}
+                        </code></pre>
+                    </section>
+                    <section>
+                        <h2>Badge Earned!</h2>
+                        <img src="img/WindowShopper.png"/>
+                    </section>
+                </section>
+
+                <section>
+                    <section>
+                        <h2>Badge 2</h2>
+                        <h3>Power Shopper</h3>
+                    </section>
+                    <section>
+                        <p>So, what is a power shopper?</p>
+                    </section>
+                    <section>
+                        <h3 style="margin-bottom: 50px;">Data Setup</h3>
+                        <pre><code data-trim contenteditable style="font-size: 18px; margin-top: 20px;">
+class PowerShopperBadge extends UserMonitor {
+  val window = 30.days
+  val minItems = 30
+  val maxCarts = 4
+
+  var carts: Seq[CartPurchased] = Nil
+
+  def isRecent(event: Event) =
+    event.ts &gt; window.ago
+
+  // continues on next slide
+}
+                        </code></pre>
+                    </section>
+                    <section>
+                        <h3 style="margin-bottom: 50px;">Evaluation About Badge</h3>
+                        <pre><code data-trim contenteditable style="font-size: 18px; margin-top: 20px;">
+class PowerShopperBadge extends UserMonitor {
+  // continues from previous slide
+
+  def giveBadgeIfApplicable(): Unit = {
+    val itemCount = carts map (cart =&gt;
+      cart.items.values.reduce(
+        (a, b) =&gt; a + b
+    )) reduce (_ + _)
+    if (carts.size &lt;= maxCarts &amp;&amp;
+        itemCount &gt; minItems)
+      award(user, "Power Shopper")
+  }
+
+  // continues on next slide
+}
+                        </code></pre>
+                    </section>
+                    <section>
+                        <h3 style="margin-bottom: 50px;">React to Events</h3>
+                        <pre><code data-trim contenteditable style="font-size: 18px; margin-top: 20px;">
+class PowerShopperBadge extends UserMonitor {
+  // continues from previous slide
+
+  def receive: Receive = {
+    case cart: CartPurchased(_, items) =&gt;
+      carts = cart :: (carts filter isRecent)
+      giveBadgeIfApplicable()
+  }
+}
+                        </code></pre>
+                    </section>
+                    <section>
+                        <h2>Badge Earned!</h2>
+                        <img src="img/StrongShopper.png"/>
+                    </section>
+                </section>
+
+                <section>
+                    <section>
+                        <h2>Badge 3</h2>
+                        <h3>Price Watcher</h3>
+                    </section>
+                    <section>
+                        <p>So, what is a price watcher?</p>
+                    </section>
+                    <section>
+                        <h3 style="margin-bottom: 50px;">Basic Premise</h3>
+                        <pre><code data-trim contenteditable style="font-size: 18px; margin-top: 20px;">
+case class PurchasedOnDrop(user: User, product: Product)
+
+class PriceWatcherBadge extends UserMonitor {
+  val minPurchases = 10
+
+  var counter = 0
+
+  def giveBadgeIfApplicable(): Unit = {
+    if (counter &gt;= minPurchases)
+      award(user, "Price Watcher")
+  }
+
+  def receive: Receive = {
+    case PurchasedOnDrop(_, _) =&gt;
+      counter = counter + 1
+      giveBadgeIfApplicable()
+  }
+}
+                        </code></pre>
+                    </section>
+                    <section>
+                        <p>So, now what?</p>
+                    </section>
+                    <section>
+                        <h3 style="margin-bottom: 50px;">Watch the Price: Data</h3>
+                        <pre><code data-trim contenteditable style="font-size: 18px; margin-top: 20px;">
+class ProductPriceWatcher extends ProductMonitor {
+  val discountWindow = 1.day
+  var isRecentlyDiscounted = false
+  var discountDate = Timestamp.Zero
+
+  def isStillDiscounted =
+    now &gt; discountWindow.ago
+
+  // continues on next slide
+}
+                        </code></pre>
+                    </section>
+                    <section>
+                        <h3 style="margin-bottom: 50px;">Watch the Price: React</h3>
+                        <pre><code data-trim contenteditable style="font-size: 18px; margin-top: 20px;">
+class ProductPriceWatcher extends ProductMonitor {
+  // continues from previous slide
+
+  def receive: Receive = {
+    case PriceChanged(product, delta) if (delta &lt; 0) =&gt;
+      isRecentlyDiscounted = true
+      discountedDate = now
+    case PriceChanged(product, delta) if (delta &gt; 0) =&gt;
+      isRecentlyDiscounted = false
+      discountedDate = Timestamp.Zero
+    case Purchased(user, product) =&gt;
+      isRecentlyDiscounted = isStillDiscounted
+      if (isRecentlyDiscounted)
+        priceWatcherBadge(user) ! PurchasedOnDrop(user, product)
+  }
+}
+                        </code></pre>
+                    </section>
+                    <section>
+                        <h2>Badge Earned!</h2>
+                        <img src="img/CheapShopper.png"/>
+                    </section>
+                </section>
+
+                <section>
+                    <section>
+                        <h2>Badge 4</h2>
+                        <h3>Indecisive</h3>
+                    </section>
+                    <section>
+                        <p>So, what is an indecisive buyer?</p>
+                    </section>
+                    <section>
+                        <h3 style="margin-bottom: 50px;">Data Setup</h3>
+                        <pre><code data-trim contenteditable style="font-size: 18px; margin-top: 20px;">
+                        </code></pre>
+                    <section>
+                        <h3 style="margin-bottom: 50px;">Data Setup</h3>
+                        <pre><code data-trim contenteditable style="font-size: 18px; margin-top: 20px;">
+case class Replaced(user: User, oldProduct: Product, newProduct: Product)
+
+class UserReturnWatcher(product: Product) extends UserMonitor {
+  val minReturns = 3
+  val productType = product.productType
+
+  var productCurrentlyHeld = product
+  var counter = 0
+
+  def giveBadgeIfApplicable(): Unit = {
+    if (counter &gt;= minReturns)
+      award(user, "Indecisive Buyer")
+  }
+
+  // continues on next slide
+}
+                        </code></pre>
+                    </section>
+                    <section>
+                        <h3 style="margin-bottom: 50px;">Evaluation About Badge</h3>
+                        <pre><code data-trim contenteditable style="font-size: 18px; margin-top: 20px;">
+class UserReturnWatcher(productType: ProductType) extends UserMonitor {
+  // continues from previous slide
+
+  def afterReturn: Receive = {
+    case Purchased(_, product)
+      if product.productType == productType =&gt;
+        productCurrentlyHeld = product
+        become(afterBuy)
+        giveBadgeIfApplicable()
+  }
+
+  def afterBuy: Receive = {
+    case Returned(_, product)
+      if product == productCurrentlyHeld =&gt;
+        counter = counter + 1
+        become(afterReturn)
+  }
+
+  // continues on next slide
+}
+                        </code></pre>
+                    </section>
+                    <section>
+                        <h3 style="margin-bottom: 50px;">Evaluation About Badge</h3>
+                        <pre><code data-trim contenteditable style="font-size: 18px; margin-top: 20px;">
+class UserReturnWatcher(productType: ProductType) extends UserMonitor {
+  // continues from previous slide
+
+  def receive: Receive = afterReturn
+
+  // continues on next slide
+}
+                        </code></pre>
+                    </section>
+                    <section>
+                        <h2>Badge Earned!</h2>
+                        <img src="img/IndecisiveShopper.png"/>
+                    </section>
+                </section>
+
+                <section>
+                    <section>
+                        <h2 style="margin-bottom: 50px;">Actors</h2>
+                        <h3>Actor Basics</h3>
+                    </section>
+                    <section>
+                        <h2 style="margin-bottom: 50px;">Benefits</h2>
+                        <ul>
+                            <li>More Actors not More Complex Actors</li>
+                            <li>Actors are about Teamwork</li>
+                            <li>Think of Actors like People</li>
+                            <li>Actors are Base</li>
+                            <li>Actors are Cheap, don't try to Save Them</li>
+                        </ul>
+                    </section>
+                    <section>
+                        <h2 style="margin-bottom: 50px;">Problems</h2>
+                        <ul>
+                            <li>Types can be Lost</li>
+                            <li>Hard to Monitor</li>
+                            <li>Hard to Manage</li>
+                            <li>Hard to Weild</li>
+                            <li>... like FIRE</li>
+                        </ul>
+                    </section>
+                    <section>
+                        <h2 style="margin-bottom: 50px;">Solutions</h2>
+                        <ul>
+                            <li>Work Up Front to Phone Home, etc.</li>
+                            <li>Careful use of Logging</li>
+                            <li>Consult Let it Crash</li>
+                            <li>Consult the Akka Documentation</li>
+                        </ul>
+                    </section>
+                </section>
+
+                <section>
+                    <section>
+                        <h2 style="margin-bottom: 50px;">What Next?</h2>
+                        <h3>The Possibilities</h3>
+                    </section>
+                    <section>
+                        <h2 style="margin-bottom: 50px;">Back-Testing</h2>
+                        <ul>
+                            <li>Re-Run using the event history</li>
+                            <li>UI's for Testing Badges</li>
+                            <li>Badges are Simple</li>
+                            <li>Anyone can build badges</li>
+                        </ul>
+                    </section>
+                    <section>
+                        <h2 style="margin-bottom: 50px;">Disasters</h2>
+                        <ul>
+                            <li>Remember the fold</li>
+                            <li>Replay from the beginning of time</li>
+                        </ul>
+                    </section>
+                </section>
+
+                <section>
+                    <section>
+                        <h2 style="margin-bottom: 50px;">simplify</h2>
+                        <ul>
+                            <li class="fragment">small</li>
+                            <li class="fragment">understandable</li>
+                            <li class="fragment">cognitive load</li>
+                        </ul>
+                    </section>
+                    <section>
+                        <h2 style="margin-bottom: 50px;">isolate</h2>
+                        <ul>
+                            <li class="fragment">cross cutting concerns</li>
+                            <li class="fragment">exactly <strong>one</strong> thing</li>
+                        </ul>
+                    </section>
+                    <section>
+                        <h2 style="margin-bottom: 50px;">compose</h2>
+                        <ul>
+                            <li class="fragment">the legos way</li>
+                            <li class="fragment">cut along dimensions</li>
+                            <li class="fragment">build a mental model</li>
+                        </ul>
+                    </section>
+                </section>
+
+                <section>
+                    <section>
+                        <h3>FIN</h3>
+                        <p>Questions</p>
+                        <p>Comments</p>
+                    </section>
+                </section>
+
+                <section>
+                    <section>
+                        <p style="font-size: 40px;"><a href="https://github.com/bigh/cep-akka-presentation">https://github.com/bigh/cep-akka-presentation</a></p>
+                    </section>
+                </section>
+
+            </div>
+
+        </div>
+
+        <script src="lib/js/head.min.js"></script>
+        <script src="js/reveal.min.js"></script>
+
+        <script>
+
+            // Full list of configuration options available here:
+            // https://github.com/hakimel/reveal.js#configuration
+            Reveal.initialize({
+                controls: true,
+                progress: true,
+                slideNumber: true,
+                history: true,
+                center: true,
+                previewLinks: true,
+
+                theme: Reveal.getQueryHash().theme, // available themes are in /css/theme
+                transition: Reveal.getQueryHash().transition || 'default', // default/cube/page/concave/zoom/linear/fade/none
+
+                // Parallax scrolling
+                // parallaxBackgroundImage: 'https://s3.amazonaws.com/hakim-static/reveal-js/reveal-parallax-1.jpg',
+                // parallaxBackgroundSize: '2100px 900px',
+
+                // Optional libraries used to extend on reveal.js
+                dependencies: [
+                    { src: 'lib/js/classList.js', condition: function() { return !document.body.classList; } },
+                    { src: 'plugin/markdown/marked.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+                    { src: 'plugin/markdown/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+                    { src: 'plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } },
+                    { src: 'plugin/zoom-js/zoom.js', async: true, condition: function() { return !!document.body.classList; } },
+                    { src: 'plugin/notes/notes.js', async: true, condition: function() { return !!document.body.classList; } }
+                ]
+            });
+
+        </script>
+
+    </body>
+</html>
